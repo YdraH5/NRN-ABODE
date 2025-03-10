@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-[#355F2E] text-white sticky top-0 z-50">
+<nav x-data="{ open: false }" class="bg-gray-100 sticky text-black top-0 z-50 shadow-md">
     
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
