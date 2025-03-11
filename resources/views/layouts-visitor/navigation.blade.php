@@ -12,26 +12,26 @@
                   </a>
               </div>
 
-              <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex text-black py-4" id="navLinks">
-                <x-nav-link href="{{ route('welcome') }}#overview" class="nav-link">
-                    <h6 class="font-light text-lg">Overview</h6>
+            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex text-black py-4" id="navLinks">
+                <x-nav-link href="#overview" class="nav-link" id="link-overview">
+                  <h6 class="font-light text-lg">Overview</h6>
                 </x-nav-link>
                 
-                <x-nav-link href="{{ route('welcome') }}#about_us" class="nav-link">
-                    <h6 class="font-light text-lg">About Us</h6>
+                <x-nav-link href="#about-us" class="nav-link" id="link-about-us">
+                  <h6 class="font-light text-lg">About Us</h6>
                 </x-nav-link>
-
-                <x-nav-link href="{{ route('welcome') }}#near-establishments" class="nav-link">
+            
+                <x-nav-link href="#nearby" class="nav-link" id="link-near-establishments">
                     <h6 class="font-light text-lg">Establishments</h6>
                 </x-nav-link>
-
-                <x-nav-link href="{{ route('welcome') }}#rooms" class="nav-link">
+            
+                <x-nav-link href="#rooms" class="nav-link" id="link-rooms">
                     <h6 class="font-light text-lg">Rooms</h6>
                 </x-nav-link>
-
-                <x-nav-link href="{{ route('welcome') }}#location" class="nav-link">
+            
+                <x-nav-link href="#location" class="nav-link" id="link-location">
                     <h6 class="font-light text-lg">Location</h6>
-                </x-nav-link>
+                </x-nav-link>          
               </div>
 
               {{--container for login and register  --}}

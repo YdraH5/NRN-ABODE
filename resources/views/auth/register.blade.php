@@ -3,12 +3,10 @@
         @csrf
         <h2 class="text-3xl font-bold mb-6">Sign up</h2>
         <!-- Name -->
-        <div class="mt-2">
-            <x-input-label for="name" :value="__('Name')" />
-            <input type="text" :value="old('name')" class="mb-3 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"required autofocus autocomplete="name" name="name"placeholder="Juan Dela Cruz">
-            @error('name') <span class="error text-red-900">{{ $message }}</span> @enderror 
-        </div>
-
+        <input type="text" name="name" id="name" :value="old('name')" 
+            class="mb-3 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+            required autofocus autocomplete="name" placeholder="Juan Dela Cruz"
+            oninput="this.value = this.value.replace(/[^A-Za-z\s.]/g, '')">
         <!-- Email Address -->
         <div class="mt-2">
             <x-input-label for="email" :value="__('Email')" />
@@ -18,9 +16,14 @@
         {{-- Phone number --}}
         <div class="mt-2">
             <x-input-label for="mobile" :value="__('Mobile Number (PH)')" />
-            <input type="tel" placeholder="09XX-XXX-XXXX" pattern="09[0-9]{9}" class="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border" name="phone_number" maxlength="11" minlength="11" required>
+            <input type="tel" id="phone_number" name="phone_number"
+                placeholder="09XX-XXX-XXXX" 
+                class="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                pattern="^09\d{9}$" 
+                maxlength="11" minlength="11" required
+                oninput="this.value = this.value.replace(/[^0-9]/g, '')">
             @error('mobile') <span class="error text-red-900">{{ $message }}</span> @enderror 
-        </div>
+        </div>        
         <!-- Password -->
         <div class="mt-2">
             <x-input-label for="password" :value="__('Password')" />

@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>    
     <link rel="preconnect" href="https://fonts.bunny.net">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
     <style>
         /* Fade-In Animation */
@@ -148,30 +149,6 @@
     @livewireScripts
     
     <script>
-   document.addEventListener('DOMContentLoaded', function () {
-    const seeMoreButton = document.getElementById('see-more-button-establishments');
-    const seeLessButton = document.getElementById('see-less-button-establishments');
-    const hiddenEstablishments = document.querySelectorAll('.hidden-establishments');
-
-    seeMoreButton.addEventListener('click', function () {
-        hiddenEstablishments.forEach(function (establishment) {
-            establishment.classList.remove('hidden');
-        });
-        seeMoreButton.classList.add('hidden');
-        seeLessButton.classList.remove('hidden');
-    });
-
-    seeLessButton.addEventListener('click', function () {
-        hiddenEstablishments.forEach(function (establishment) {
-            establishment.classList.add('hidden');
-        });
-        seeMoreButton.classList.remove('hidden');
-        seeLessButton.classList.add('hidden');
-    });
-});
-
-
-
         document.addEventListener("DOMContentLoaded", function () {
         const modal = document.getElementById("image-modal");
         const modalImg = document.getElementById("modal-image");
@@ -219,5 +196,36 @@ elements.forEach(element => {
 
     </script>
     <script src="https://unpkg.com/flowbite@1.4.0/dist/flowbite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000, // Animation duration in milliseconds
+            easing: "ease-in-out", // Smooth transition
+            once: false // Allow repeated animation on scroll
+        });
+    </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const elements = document.querySelectorAll("[data-scroll]");
+
+        function scrollHandler() {
+            elements.forEach((el) => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.9 && rect.bottom > 0) {
+                    el.classList.add("opacity-100", "translate-y-0");
+                    el.classList.remove("opacity-0", "translate-y-10");
+                } else {
+                    // Reset animation when out of view
+                    el.classList.remove("opacity-100", "translate-y-0");
+                    el.classList.add("opacity-0", "translate-y-10");
+                }
+            });
+        }
+
+        window.addEventListener("scroll", scrollHandler);
+        scrollHandler(); // Run on load in case elements are already in view
+    });
+</script>
+
 </body>
 </html>

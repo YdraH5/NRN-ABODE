@@ -16,8 +16,8 @@
 
 
     </head>
-    <body class="h-screen bg-yellow-100 flex items-center justify-center">
-        <div class="bg-white w-full max-w-4xl flex flex-col md:flex-row shadow-lg rounded-lg overflow-hidden">
+    <body class="h-screen bg-white flex items-center justify-center">
+        <div class="bg-gray-100 w-full max-w-4xl flex flex-col md:flex-row shadow-lg rounded-lg overflow-hidden">
             <div class="w-full md:w-1/2 bg-blue-400 order-1 md:order-2">
                 <img src="images/NRNBUILDING.png" alt="Login Image" class="w-full h-full object-cover">
             </div>

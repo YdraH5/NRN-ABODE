@@ -18,7 +18,9 @@ class NearbyForm extends Component
             'distance' => 'required|numeric|min:0',
             'image' => 'required|image|', // Image validation rules
         ]);
-        $imagePath = $this->image->store('uploads/nearby/', 'public');
+        
+        $imagePath = $this->image->store('uploads/nearby', 'public');
+        $this->image_url = $imagePath; // Store path correctly
         
         Nearby::create([
             'name' => $this->name,
