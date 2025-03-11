@@ -1,4 +1,5 @@
 <div>
+    /hotdog
 <div class="bg-gray-100 text-white min-h-screen">
     <div class="bg-gray-100 text-white min-h-screen">
     <div class="bg-gray-100 text-white px-16 pt-16 relative animate-on-scroll">
