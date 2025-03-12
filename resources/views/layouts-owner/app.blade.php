@@ -16,6 +16,15 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
         <style>
     /* Hide in the web view */
+    #sidebar {
+                scrollbar-width: none; /* Hide scrollbar for Firefox */
+                -ms-overflow-style: none; /* Hide scrollbar for Internet Explorer/Edge */
+            }
+
+            #sidebar::-webkit-scrollbar {
+                display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+            }
+
     .print-only {
         display: none;
     }

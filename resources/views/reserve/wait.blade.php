@@ -9,7 +9,7 @@
 
     @foreach($reservations as $reservation)
     @if(Auth::user()->role === 'reserve')
-    <div class="bg-yellow-50 min-h-screen flex flex-col md:flex-row">
+    <div class="bg-gray-100 min-h-screen flex flex-col md:flex-row">
         <!-- Left Section: Image Carousel -->
         <div class="w-full md:w-1/2 p-4 h-64 md:h-screen flex items-center justify-center">
             <div id="imageCarousel" class="relative w-full h-full">

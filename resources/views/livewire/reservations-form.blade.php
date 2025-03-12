@@ -6,7 +6,6 @@
     
     <div class="flex flex-col lg:flex-row items-center justify-center space-y-4 lg:space-y-0 lg:space-x-8 bg-white shadow-md rounded-lg p-4">
         <div class="max-w-2xl w-full">
-        
           <div id="default-carousel" class="relative" data-carousel="static">
                 <!-- Carousel wrapper -->
                 <div class="overflow-hidden relative h-56 rounded-lg sm:h-64 xl:h-80 2xl:h-96">

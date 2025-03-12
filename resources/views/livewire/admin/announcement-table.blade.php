@@ -126,9 +126,8 @@
                                                 <label class="block font-medium opacity-70">Priority</label>
                                                 <select wire:model="priority" class="text-gray-600 focus:outline-none focus:border focus:border-indigo-700 focus:ring-2 focus:ring-indigo-500 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border">
                                                     <option value="" disabled selected hidden>Select Priority</option>
-                                                    <option value="Low">Low</option>
-                                                    <option value="Medium">Medium</option>
-                                                    <option value="High">High</option>
+                                                    <option value="Low">Minor</option>
+                                                    <option value="High">Urgent</option>
                                                 </select>
                                                 @error('priority') <span class="error text-red-900">{{ $message }}</span> @enderror
                                             </div>

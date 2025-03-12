@@ -124,7 +124,19 @@
                             </tr>
                         </thead>
                         <tbody class="text-gray-700">
+                         
                         @foreach($due_dates as $index => $due)
+                        @php
+                        $previousDue = $due_dates->slice(0, $index)->last();
+                        $canPay = !$previousDue || $previousDue->status === 'paid';
+                        $isPaid = $due->status === 'paid';
+                        $isPending = $due->status === 'pending';
+                    @endphp
+                            @if($isPaid)
+                            <tr class="hidden">
+                                
+                            </tr>
+                            @else
                             <tr class="hover:bg-gray-100">
                                 <td class="px-4 py-3 border-b border-gray-300">
                                     {{ date('F jS Y', strtotime($due->payment_due_date)) }}
@@ -133,17 +145,10 @@
                                     ₱{{ number_format($due->amount_due, 2) }}
                                 </td>
                                 <td class="px-4 py-3 border-b border-gray-300 lg:table-cell sm:hidden">
-                                    @php
-                                        $previousDue = $due_dates->slice(0, $index)->last();
-                                        $canPay = !$previousDue || $previousDue->status === 'paid';
-                                        $isPaid = $due->status === 'paid';
-                                        $isPending = $due->status === 'pending';
-                                    @endphp
+                                   
 
                                     <div x-data="{ showWarning: false }" class="relative flex flex-col items-start">
-                                        @if($isPaid)
-                                            <span class="text-green-600 py-2 px-3 rounded-lg text-md">Paid</span>
-                                        @elseif($isPending)
+                                        @if($isPending)
                                             <span class="bg-yellow-300 text-white py-2 px-3 rounded-lg text-sm">Pending</span>
                                         @elseif($canPay)
                                             <button 
@@ -177,12 +182,12 @@
 
                                                     <label class="block text-gray-700 text-sm font-bold mt-4">Payment Method</label>
                                                     <div class="relative">
-                                                        <select class="shadow appearance-none border rounded w-full py-2 pr-10 pl-3 text-gray-700 leading-tight focus:outline-none" name="payment_method" onchange="toggleImageUpload('{{ $index }}')">
+                                                        <select id="paymentMethod-{{$index}}" class="shadow appearance-none border rounded w-full py-2 pr-10 pl-3 text-gray-700 leading-tight focus:outline-none" name="payment_method" onchange="toggleImageUpload({{ $index }})">
                                                             <option value="" disabled selected hidden>Select Payment Method</option>
                                                             <option value="gcash">Gcash</option>
                                                             <option value="cash">Cash</option>
                                                             <option value="stripe">Visa/Master Card</option>
-                                                        </select>
+                                                        </select>                                                        
                                                         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                                             <svg class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7l9 9 9-9" />
@@ -220,20 +225,22 @@
                                     </div>
                                 </td>
                             </tr>
+                            @endif
                         @endforeach
                     </tbody>
 
-                    </table>
-                </div>
-                @endif
+            </table>
             </div>
+            @endif
+        </div>
 
         </div>
     </div>
     <script>
-    function toggleImageUpload(index) {
+       function toggleImageUpload(index) {
         const selectElement = document.getElementById(`paymentMethod-${index}`);
         const imageUploadDiv = document.getElementById(`imageUpload-${index}`);
+
         if (selectElement.value === 'gcash') {
             imageUploadDiv.style.display = 'block';
         } else {

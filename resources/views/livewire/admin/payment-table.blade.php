@@ -107,6 +107,8 @@
                         <td class="py-3 px-4 text-center border-b border-gray-300">{{ \Carbon\Carbon::parse($payment->created_at)->format('F j, Y')}}</td>
                         @if($payment->status === 'paid')
                         <td class="py-3 px-4 text-center border-b border-gray-300 text-green-500">{{ $payment->status }}</td>
+                        @elseif($payment->status === 'pending')
+                        <td class="py-3 px-4 text-center border-b border-gray-300 text-yellow-500">{{ $payment->status }}</td>
                         @endif
                          <td class="no-print py-3 px-4 text-center border-b border-gray-300">
                             <div class="flex justify-center gap-1"> 
@@ -127,7 +129,7 @@
         <x-slot name="body">
             <div class="p-4 flex flex-col items-center">
                 @if($currentReceipt)
-                <img src="{{ $currentReceipt }}" alt="Receipt Image" style="max-height: 400px; max-width: 100%;">
+                <img src="{{ $currentReceipt }}" alt="NO RECEIPT TO SHOW" style="max-height: 400px; max-width: 100%;">
                 @endif
                 <div class="flex justify-end py-2">
                     <button wire:click ="reject({{$payment_id}})"x-on:click="$dispatch('close-modal',{name:'view-receipt'})" type="button"
