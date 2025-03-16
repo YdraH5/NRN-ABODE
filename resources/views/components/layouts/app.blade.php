@@ -30,35 +30,67 @@
                 display: none;
             }
 
-            /* Show in the print view */
             @media print {
-                .print-only {
-                    display: block;
-                }
+        .print-container {
+            display: flex !important;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
 
-                /* Hide elements you don't want to print, like search bar and pagination */
-                .no-print {
-                    display: none;
-                }
+        .print-container .chart-container {
+            width: 48% !important; /* Ensure equal width for both charts */
+        }
+        * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
+        }
+            .overflow-x-auto {
+            overflow: visible !important;
+        }
 
-                /* Adjust table for print */
-                table {
-                    width: 100%;
-                    border-collapse: collapse;
-                }
+        .print-only {
+            display: block !important;
+            text-align: center;
+            padding: 20px;
+            background: #fff !important;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
 
-                th, td {
-                    padding: 8px;
-                    text-align: left;
-                    border: 1px solid #ddd;
-                }
+        .print-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
 
-                body {
-                    font-size: 12px;
-                    margin: 0;
-                    padding: 20px;
-                }
-            }
+        .print-table th, .print-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .print-table th {
+            background: #4f46e5 !important;
+            color: white !important;
+        }
+
+        .no-print {
+            display: none !important;
+        }
+
+        .bg-blue-100 { background-color: #bfdbfe !important; } 
+        .bg-green-100 { background-color: #d1fae5 !important; } 
+        .bg-yellow-100 { background-color: #fef3c7 !important; } 
+        .bg-red-100 { background-color: #fee2e2 !important; } 
+
+        body {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+    }
+
         </style>
     </head>
     <body class="bg-smokewhite">

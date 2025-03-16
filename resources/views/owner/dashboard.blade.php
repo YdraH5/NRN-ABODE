@@ -15,7 +15,7 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-4 text-center">
                 @foreach([
                   [
-                      'route' => '/owner/users',
+                      'route' => '/admin/users',
                       'icon' => 'user',
                       'count' => \App\Models\Reservation::whereHas('apartment', function ($query) {
                           $query->whereColumn('reservations.user_id', 'apartment.renter_id');
@@ -23,9 +23,9 @@
                       'label' => 'Occupants',
                       'color' => 'text-indigo-500'
                   ],
-                  ['route' => '/owner/reports', 'icon' => 'report', 'count' => \App\Models\Report::count(), 'label' => 'Complains', 'color' => 'text-red-500'],
-                  ['route' => '/owner/apartment', 'icon' => 'room', 'count' => \Illuminate\Support\Facades\DB::table('apartment')->whereNull('renter_id')->count(), 'label' => 'Vacant Room', 'color' => 'text-green-500'],
-                  ['route' => '/owner/reservations', 'icon' => 'reservation', 'count' => \Illuminate\Support\Facades\DB::table('reservations')->whereNotNull('user_id')->whereDate('check_in', '>', \Carbon\Carbon::now())->count(), 'label' => 'Reservations', 'color' => 'text-indigo-500']
+                  ['route' => 'admin/reports', 'icon' => 'report', 'count' => \App\Models\Report::count(), 'label' => 'Reports', 'color' => 'text-red-500'],
+                  ['route' => 'admin/apartment', 'icon' => 'room', 'count' => $vacantRooms, 'label' => 'Vacant Room', 'color' => 'text-green-500'],
+                  ['route' => 'admin/reservations', 'icon' => 'reservation', 'count' => \Illuminate\Support\Facades\DB::table('reservations')->whereNotNull('user_id')->whereDate('check_in', '>', \Carbon\Carbon::now())->count(), 'label' => 'Reservations', 'color' => 'text-indigo-500']
                 ] as $item)
                   <div class="p-4">
                     <a href="{{ $item['route'] }}">
@@ -60,31 +60,129 @@
               </div>
             </div>
           </section>
-          <section>
-            <div class="flex flex-col items-center w-full max-w-screen-md p-6 pb-6 bg-white rounded-lg shadow-xl sm:p-8">
-              <h2 class="text-xl font-bold">Monthly Revenue</h2>
-              <span class="text-sm font-semibold text-gray-500">{{ now()->year }}</span>
-              @php
-                  // Check if $months is not empty and has non-zero values
-                  $maxRevenue = $months->isNotEmpty() ? max($months->toArray()) : 1; // Default to 1 to avoid division by zero
-                  $maxHeight = 40; // Maximum height for the tallest bar
-              @endphp
-
-              <div class="flex items-end flex-grow w-full mt-2 space-x-2 sm:space-x-3">
-              @foreach($months as $month => $revenue)
-                  <div class="relative flex flex-col items-center flex-grow pb-5 group">
-                      <span class="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">₱{{ number_format($revenue) }}</span>
-                      <div class="relative flex justify-center w-full h-{{ $maxRevenue > 0 ? round(($revenue / $maxRevenue) * $maxHeight) : 0 }} bg-indigo-400"></div>
-                      <span class="absolute bottom-0 text-xs font-bold">{{ Carbon\Carbon::create()->month($month)->format('M') }}</span>
-                  </div>
-              @endforeach
-              </div>
+          <!-- Charts Section -->
+          <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 px-4">
+            <!-- Monthly Revenue Chart -->
+            <div class="bg-white p-6 pb-6 rounded-lg shadow-xl">
+                <h2 class="text-xl font-bold">Monthly Revenue</h2>
+                <span class="text-sm font-semibold text-gray-500">{{ now()->year }}</span>
+                <div class="flex items-end flex-grow w-full mt-2 space-x-2 sm:space-x-3">
+                    @php
+                        $maxRevenue = $months->isNotEmpty() ? max($months->toArray()) : 1;
+                        $maxHeight = 40;
+                    @endphp
+                    @foreach($months as $month => $revenue)
+                        <div class="relative flex flex-col items-center flex-grow pb-5 group">
+                            <span class="absolute top-0 hidden -mt-6 text-xs font-bold group-hover:block">₱{{ number_format($revenue) }}</span>
+                            <div class="relative flex justify-center w-full h-{{ $maxRevenue > 0 ? round(($revenue / $maxRevenue) * $maxHeight) : 0 }} bg-indigo-400"></div>
+                            <span class="absolute bottom-0 text-xs font-bold">{{ Carbon\Carbon::create()->month($month)->format('M') }}</span>
+                        </div>
+                    @endforeach
+                </div>
             </div>
-          </section>
+        
+            <!-- Payment Collection Pie Chart -->
+            <div class="bg-white p-6 pb-6 rounded-lg shadow-xl">
+                <h2 class="text-xl font-bold">Payment Collection Status</h2>
+                <span class="text-sm font-semibold text-gray-500">{{ now()->year }}</span>
+                @php
+                    $paidCount = \App\Models\DueDate::where('status', 'paid')->count();
+                    $pendingCount = \App\Models\DueDate::where('status', 'pending')->count();
+                    $overdueCount = \App\Models\DueDate::where('status', '!=', 'paid')
+                        ->where('payment_due_date', '<', \Carbon\Carbon::today())
+                        ->count();
+                @endphp
+                <div class="w-full h-64">
+                    <canvas id="paymentChart"></canvas>
+                </div>
+            </div>
+        
+            <!-- Complaint Status Pie Chart -->
+            <div class="bg-white p-6 pb-6 rounded-lg shadow-xl">
+                <h2 class="text-xl font-bold">Complaint Status</h2>
+                <span class="text-sm font-semibold text-gray-500">{{ now()->year }}</span>
+                @php
+                    $openComplaints = \App\Models\Report::where('status', 'Pending')->count();
+                    $inProgressComplaints = \App\Models\Report::where('status', 'Ongoing')->count();
+                    $resolvedComplaints = \App\Models\Report::where('status', 'Fixed')->count();
+                @endphp
+                <div class="w-full h-64">
+                    <canvas id="complaintChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+       <!-- Load Chart.js and Render Charts -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+              renderCharts(); // Run on initial page load
+          });
+
+          document.addEventListener("turbolinks:load", function () {
+              reloadCharts(); // Run when navigating with Turbolinks
+          });
+
+          function reloadCharts() {
+              // Remove existing canvases and create new ones
+              document.getElementById("paymentChart").remove();
+              document.getElementById("complaintChart").remove();
+
+              let paymentCanvas = document.createElement("canvas");
+              paymentCanvas.id = "paymentChart";
+              document.querySelector(".payment-chart-container").appendChild(paymentCanvas);
+
+              let complaintCanvas = document.createElement("canvas");
+              complaintCanvas.id = "complaintChart";
+              document.querySelector(".complaint-chart-container").appendChild(complaintCanvas);
+
+              setTimeout(renderCharts, 200); // Ensure DOM is ready before reloading charts
+          }
+
+          function renderCharts() {
+              // Destroy existing charts if they exist
+              Object.values(Chart.instances).forEach(instance => instance.destroy());
+
+              // Payment Collection Chart
+              const paymentCtx = document.getElementById("paymentChart").getContext("2d");
+              new Chart(paymentCtx, {
+                  type: "pie",
+                  data: {
+                      labels: ["Paid", "Overdue", "Pending"],
+                      datasets: [{
+                          data: [{{ $paidCount }}, {{ $overdueCount }}, {{ $pendingCount }}],
+                          backgroundColor: ["#4CAF50", "#F44336", "#FFC107"],
+                          hoverOffset: 5
+                      }]
+                  },
+                  options: { responsive: true, maintainAspectRatio: false }
+              });
+
+              // Complaint Status Chart
+              const complaintCtx = document.getElementById("complaintChart").getContext("2d");
+              new Chart(complaintCtx, {
+                  type: "pie",
+                  data: {
+                      labels: ["Open", "In Progress", "Resolved"],
+                      datasets: [{
+                          data: [{{ $openComplaints }}, {{ $inProgressComplaints }}, {{ $resolvedComplaints }}],
+                          backgroundColor: ["#FF6384", "#FFCE56", "#36A2EB"],
+                          hoverOffset: 5
+                      }]
+                  },
+                  options: { responsive: true, maintainAspectRatio: false }
+              });
+          }
+        </script>
+
+        
+        
         </div>
       </div>
     </div>
   </div>
+
+
   @stop
 
 </x-owner-layout>

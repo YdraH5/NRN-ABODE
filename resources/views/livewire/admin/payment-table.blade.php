@@ -22,30 +22,36 @@
                 @include('buttons.add')
             </button> 
         </div>
+        <!-- Print-Only Section -->
         <div class="print-only bg-white p-6 rounded-lg shadow-md mb-6">
-            <h2 class="text-xl font-semibold mb-6 text-indigo-600">Payments Report</h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="chart-container">
-                    <h3 class="text-lg font-medium text-center">Rental Fee Earnings</h3>
-                    <img src="{{ $rentalChartUrl }}" alt="Rental Fee Earnings Chart" class="mx-auto">
-                </div>
-
-                <div class="chart-container">
-                    <h3 class="text-lg font-medium text-center">Reservation Fee Earnings</h3>
-                    <img src="{{ $reservationChartUrl }}" alt="Reservation Fee Earnings Chart" class="mx-auto">
+        <!-- Logo and Title -->
+            <div class="flex items-center justify-between mb-4">
+                <img src="{{ asset('images/NRN LOGO.png') }}" class="h-16">
+                <div class="text-center">
+                    <h1 class="text-2xl font-bold text-gray-800">Monthly Revenue Report</h1>
+                    <p class="text-gray-600 text-sm">Generated on: {{ date('F d, Y') }}</p>
                 </div>
             </div>
-        </div>
-        <br class="print-only">
-         <br class="print-only">
-         <br class="print-only">
-         <br class="print-only">
-         <br class="print-only">
-         <br class="print-only">
-         <br class="print-only">
-        <!-- Table -->
 
+            <div class="print-container flex flex-wrap justify-center gap-6">
+                <div class="chart-container w-full md:w-1/2 lg:w-1/3 bg-white p-4 rounded-lg shadow-md">
+                    <h3 class="text-base font-semibold text-center text-gray-700">Rental Fee Earnings</h3>
+                    <img src="{{ $rentalChartUrl }}" alt="Rental Fee Earnings Chart" class="w-full h-auto mx-auto">
+                </div>
+            
+                <div class="chart-container w-full md:w-1/2 lg:w-1/3 bg-white p-4 rounded-lg shadow-md">
+                    <h3 class="text-base font-semibold text-center text-gray-700">Reservation Fee Earnings</h3>
+                    <img src="{{ $reservationChartUrl }}" alt="Reservation Fee Earnings Chart" class="w-full h-auto mx-auto">
+                </div>
+            </div>   
+             <!-- Prepared By Section -->
+             <div class="mt-10 border-t pt-4">
+                <p class="text-gray-700 font-medium">Prepared by: <span class="font-bold">{{ auth()->user()->name }}</span></p>
+                <p class="text-gray-600 text-sm">Position: {{ auth()->user()->role }}</p>
+            </div>      
+        </div>
+        <!-- Table -->
+        </div>
         <div class="overflow-x-auto bg-white shadow-lg">
             <table class="min-w-full mx-2 border-collapse">
                  @if (session('success'))
@@ -145,6 +151,8 @@
             </div>
         </x-slot>
     </x-modal>
+         <!-- Pagination -->
+    <div class="py-4 no-print">
         <div class="flex items-center mb-3">
             <label for="perPage" class="no-print mr-2 mt-2 text-sm font-medium text-gray-700">Per Page:</label>
             <select id="perPage" wire:model.live="perPage" class="no-print border border-gray-300 rounded px-2 py-1 h-8 w-20 text-sm focus:ring-indigo-500 focus:border-indigo-500">
@@ -154,8 +162,9 @@
                 <option value="20">20</option>
             </select>
         </div>
-        <div>
+        <div class="mt-4">
         {{ $payments->links()}}
         </div>
+    </div>
     </div>
 </div>

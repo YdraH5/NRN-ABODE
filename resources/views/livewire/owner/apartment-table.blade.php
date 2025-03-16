@@ -2,7 +2,7 @@
      <!-- Search Bar -->
      <div class="flex items-center gap-4 mb-4 p-2 bg-gray-50 rounded-lg shadow-sm no-print">
         <div class="flex gap-2 text-gray-700">
-            <h1 class="text-2xl font-semibold text-black">Apartments</h1>
+            <h1 class="no-print text-2xl font-semibold text-black">Apartments</h1>
         </div>
         <div class="relative w-1/2 ml-auto">
             <input id="search-input" wire:model.debounce.300ms.live="search" type="search" placeholder="Search..."
@@ -18,9 +18,17 @@
             @include('buttons.add')
         </button> 
     </div>
-    <!-- Table -->
-     <!-- Hidden in Web, Visible in Print -->
-     <div class="print-only bg-white p-6 rounded-lg shadow-md mb-6">
+      <!-- Print-Only Section -->
+      <div class="print-only bg-white p-6 rounded-lg shadow-md mb-6">
+        <!-- Logo and Title -->
+        <div class="flex items-center justify-between mb-4">
+            <img src="{{ asset('images/NRN LOGO.png') }}" class="h-16">
+            <div class="text-center">
+                <h1 class="text-2xl font-bold text-gray-800">Apartment Management Report</h1>
+                <p class="text-gray-600 text-sm">Generated on: {{ date('F d, Y') }}</p>
+            </div>
+        </div>
+        
         <h2 class="text-xl font-semibold mb-6 text-indigo-600">Apartment Report</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div class="bg-blue-100 p-6 rounded-lg shadow-md">
@@ -40,8 +48,71 @@
                 <p class="text-4xl font-bold">{{ $unavailableCount }}</p>
             </div>
         </div>
+       <!-- Prepared By Section -->
+        <div class="mt-10 border-t pt-4">
+            <p class="text-gray-700 font-medium">Prepared by: <span class="font-bold">{{ auth()->user()->name }}</span></p>
+            <p class="text-gray-600 text-sm">Position: {{ auth()->user()->role }}</p>
+        </div>
     </div>
-    <div class="overflow-x-auto bg-white shadow-lg">
+
+    <!-- Table Section -->
+    <div class="print-only overflow-x-auto bg-white shadow-lg">
+        <table class="min-w-full mx-2 border-collapse">
+            <thead> 
+                @if (session('success'))
+                <div class="alert alert-success text-green-700">
+                    {{ session('success') }}
+                </div>    
+                @endif
+                
+                <tr class="bg-indigo-500 text-white uppercase text-sm">
+                    <th wire:click="doSort('room_number')" class="py-3 px-4 text-center border-b border-indigo-600 cursor-pointer">
+                        <div class="inline-flex items-center justify-center">
+                            Room Number
+                            <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="room_number" />
+                        </div>
+                    </th>               
+                    <th wire:click="doSort('building')" class="py-3 px-4 text-center border-b border-indigo-600 cursor-pointer">
+                        <div class="inline-flex items-center justify-center">
+                            Building
+                            <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="building" />
+                        </div>
+                    </th>  
+                    <th wire:click="doSort('categ_name')" class="py-3 px-4 text-center border-b border-indigo-600 cursor-pointer">
+                        <div class="inline-flex items-center justify-center">
+                            Category
+                            <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="categ_name" />
+                        </div>
+                    </th>  
+                    <th wire:click="doSort('renters_name')" class="py-3 px-4 text-center border-b border-indigo-600 cursor-pointer">
+                        <div class="inline-flex items-center justify-center">
+                            Renters/Reservist
+                            <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="renters_name" />
+                        </div>
+                    </th>  
+                    <th wire:click="doSort('status')" class="py-3 px-4 text-center border-b border-indigo-600 cursor-pointer">
+                        <div class="inline-flex items-center justify-center">
+                            Status
+                            <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="status" />
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($apartmentsPrint as $apartments)
+                <tr class="hover:bg-indigo-100">
+                    <td class="py-3 px-4 text-center border-b border-gray-300">{{$apartments->room_number}}</td>
+                    <td class="py-3 px-4 text-center border-b border-gray-300">{{$apartments->building}}</td>
+                    <td class="py-3 px-4 text-center border-b border-gray-300">{{$apartments->categ_name}}</td>
+                    <td class="py-3 px-4 text-center border-b border-gray-300">{{$apartments->renters_name ?? 'Vacant'}}</td>
+                    <td class="py-3 px-4 text-center border-b border-gray-300">{{$apartments->status}}</td>
+                </tr>
+                @endforeach  
+            </tbody>
+        </table>
+    </div>
+    <!-- Table -->
+    <div class="no-print overflow-x-auto bg-white shadow-lg">
         <table class="min-w-full mx-2 border-collapse">
             <thead> 
                 @if (session('success'))
@@ -217,7 +288,7 @@
         </table>
     </div>
     <!-- Pagination -->
-    <div class="py-4">
+    <div class="no-print py-4">
         <div class="flex items-center mb-3">
             <label for="perPage" class="mr-2 mt-2 text-sm font-medium text-gray-700 no-print">Per Page:</label>
             <select id="perPage" wire:model.live="perPage" class="no-print border border-gray-300 rounded px-2 py-1 h-8 w-20 text-sm focus:ring-indigo-500 focus:border-indigo-500">

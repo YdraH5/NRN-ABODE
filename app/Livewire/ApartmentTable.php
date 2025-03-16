@@ -274,6 +274,7 @@ class ApartmentTable extends Component
     
         // Execute the query and return the results
         $apartments = $query->paginate($this->perPage);
+        $apartmentsPrint = $query->get();
         $categories = Category::all();
         $buildings = Building::all();
     
@@ -287,6 +288,7 @@ class ApartmentTable extends Component
         if (auth()->user()->role === 'admin') {
             return view('livewire.admin.apartment-table', [
                 'apartment' => $apartments, 
+                'apartmentsPrint' => $apartmentsPrint,
                 'categories' => $categories,
                 'buildings' => $buildings,
                 'availableCount' => $availableCount,
@@ -297,6 +299,7 @@ class ApartmentTable extends Component
         } elseif (auth()->user()->role === 'owner') {
             return view('livewire.owner.apartment-table', [
                 'apartment' => $apartments, 
+                'apartmentsPrint' => $apartmentsPrint,
                 'categories' => $categories,
                 'buildings' => $buildings,
                 'availableCount' => $availableCount,

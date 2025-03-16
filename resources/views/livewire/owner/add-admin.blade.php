@@ -10,7 +10,7 @@
                                                 <span class="error text-red-900">{{ $message }}</span> 
                                             @enderror
                                             <input type="text" 
-                                                wire:model="email" 
+                                                wire:model.debounce.300ms.live="email" 
                                                 placeholder="Enter email" 
                                                 class="mt-2 text-gray-600 focus:outline-none focus:border-indigo-700 font-normal w-full h-10 pl-3 border border-gray-300 rounded-md" 
                                                 wire:keyup="searchUser">

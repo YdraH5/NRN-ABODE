@@ -4,7 +4,7 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-black-800 dark:text-black-200 leading-tight">
-                {{ __('REPORT') }}
+                {{ __('REPORTS') }}
             </h2>
             <div class="flex items-center">
               <button class="" x-data x-on:click="$dispatch('open-modal',{name:'add-report'})">

@@ -74,7 +74,7 @@ class ReportTable extends Component
                 'apartment.room_number',
                 'reports.created_at as date'
             )
-            ->orderByRaw("CASE WHEN reports.status = 'Solved' THEN 1 ELSE 0 END")
+            ->orderByRaw("CASE WHEN reports.created_at = 'Solved' THEN 1 ELSE 0 END")
             ->orderBy($this->sortColumn, $this->sortDirection);
         // Filter based on the search search
         if (!empty($this->search)) {

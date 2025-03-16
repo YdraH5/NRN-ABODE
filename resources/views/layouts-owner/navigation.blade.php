@@ -1,5 +1,5 @@
 
-<div class="fixed w-full z-30 flex bg-[#343a40] p-2 items-center justify-center h-20 px-10">
+<div class="no-print fixed w-full z-30 flex bg-[#343a40] p-2 items-center justify-center h-20 px-10">
   <div class="flex">
     <button type="button" id="sidebarCollapse" class="no-print text-white p-2 rounded focus:outline-none">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">

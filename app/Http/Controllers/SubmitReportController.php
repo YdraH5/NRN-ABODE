@@ -34,13 +34,13 @@ public function create(Request $request) {
         $newReport = Report::create($data);
         return redirect()->route('renters.report')->with('success', 'Reports submitted successfully');
     } else {
-        return redirect()->route('renters.report.index')->with('failed', 'Sorry, you have reached the maximum number of reports. Please wait for other reports to be solved.');
+        return redirect()->route('renters.report')->with('failed', 'Sorry, you have reached the maximum number of reports. Please wait for other reports to be solved.');
     }
 }
     public function view(int $report_id){
         $report = DB::table('reports')
         ->where('id',$report_id)
         ->get();
-        return view('renters.report.index',['views'=>$report]);
+        return view('renters.report',['views'=>$report]);
     }
 }
