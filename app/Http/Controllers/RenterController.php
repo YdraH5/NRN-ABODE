@@ -224,8 +224,9 @@ class RenterController extends Controller
         // Check if the end date is in the next month
         return $endDate->month === $nextMonthDate->month && $endDate->year === $nextMonthDate->year;
     }
-    public function downloadContract(int $user_id, int $apartment_id, int $reservation) {
-        // ... Your existing code to generate the PDF ...
+    public function downloadContract(int $user_id, int $apartment_id, int $reservation)
+    {
+        // Fetch necessary data
         $user = Auth::user();
         $reservation_info = Reservation::find($reservation);
         $apartment = Appartment::find($apartment_id);
@@ -234,6 +235,8 @@ class RenterController extends Controller
         // Calculate the end date by adding the rental period (in months)
         $start_date = Carbon::parse($reservation_info->check_in);
         $end_date = $start_date->copy()->addMonths($reservation_info->rental_period);
+    
+        // Prepare data for the contract
         $data = [
             'tenant_name' => $user->name,
             'landlord_name' => 'Rose Denolo Nillos',
@@ -254,8 +257,7 @@ class RenterController extends Controller
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
     
-        // Output the PDF as a string
-        $pdfOutput = $dompdf->output();
+        // Stream the PDF to the browser with "inline" Content-Disposition
         return response()->stream(
             function() use ($dompdf) {
                 echo $dompdf->output();
@@ -263,7 +265,7 @@ class RenterController extends Controller
             200,
             [
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'inline; filename="contract.pdf"',
+                'Content-Disposition' => 'inline; filename="contract.pdf"', // Use "inline" to display in the browser
             ]
         );
     }

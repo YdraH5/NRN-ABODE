@@ -32,6 +32,7 @@
     </style>
 </head>
 <body>
+    
     <h1>APARTMENT LEASE CONTRACT</h1>
     <p>KNOWN ALL MEN BY THESE PRESENTS:</p>
     <p>This Apartment Lease Contract is entered by and between:</p>

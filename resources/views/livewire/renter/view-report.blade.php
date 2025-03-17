@@ -11,9 +11,6 @@
             {{ session('failed') }}
         </div>
         @endif
-
-        {{-- Combined report table --}}
-        <h2 class="text-lg font-semibold mb-4 flex justify-center">All Reports</h2>
         <table class="min-w-full border-collapse">
             <thead>
                 <tr class="bg-indigo-500 text-white uppercase text-sm">

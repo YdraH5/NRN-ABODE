@@ -237,7 +237,13 @@
                                             <input type="date" wire:model="check_in" class="mt-2 text-gray-600 focus:outline-none focus:border-indigo-700 focus:ring-2 focus:ring-indigo-500 w-full h-10 pl-3 border border-gray-300 rounded-md">
                                             @error('check_in') <span class="error text-red-900">{{ $message }}</span> @enderror
                                         </div>
-
+                                        <!-- oCCUPANTS -->
+                                        <div>
+                                            <label class="block font-medium opacity-70">Number of Occupants
+                                            </label>
+                                            <input type="number" wire:model="occupants" placeholder="Number of months" class="mt-2 text-gray-600 focus:outline-none focus:border-indigo-700 focus:ring-2 focus:ring-indigo-500 w-full h-10 pl-3 border border-gray-300 rounded-md">
+                                            @error('rental_period') <span class="error text-red-900">{{ $message }}</span> @enderror
+                                        </div>
                                         <!-- Rental Period -->
                                         <div>
                                             <label class="block font-medium opacity-70">Rental Period (Months)</label>
