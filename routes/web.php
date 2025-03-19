@@ -81,7 +81,6 @@ Route::group(['middleware' => ['auth','verified']], function () {
     
     //route group for owner pages
     Route::group(['middleware' => ['isOwner']], function () {
-        Route::get('/owner/dashboard', [OwnerDashboardController::class, 'index'])->name('owner.dashboard');
         Route::controller(ImageController::class)->group(function() {
             Route::get('/owner/categories/{categoryId}/upload', 'index')->name('images.index');
             Route::get('/owner/categories/{categoryId}/edit', 'edit');
@@ -90,8 +89,8 @@ Route::group(['middleware' => ['auth','verified']], function () {
             Route::get('/owner/category-image/{categoryImageId}/delete', 'delete');
         });
 
-      
-        
+        Route::get('/owner/dashboard', [OwnerDashboardController::class, 'index'])->name('owner.dashboard');
+
         // ROUTE TO USERS DATA TABLE
         Route::get('/owner/users', function () {
             return view('/owner/users');
