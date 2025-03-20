@@ -89,8 +89,11 @@ Route::group(['middleware' => ['auth','verified']], function () {
             Route::get('/owner/category-image/{categoryImageId}/delete', 'delete');
         });
 
-        Route::get('/owner/dashboard', [OwnerDashboardController::class, 'index'])->name('owner.dashboard');
-
+        // Route::get('/owner/dashboard', [OwnerDashboardController::class, 'index'])->name('owner.dashboard');
+        // first page to see when url of the page is executed
+        Route::get('/', function () {
+            return view('/owner/dashboard');
+        })->name('owner.dashboard');
         // ROUTE TO USERS DATA TABLE
         Route::get('/owner/users', function () {
             return view('/owner/users');
