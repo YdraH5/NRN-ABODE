@@ -10,7 +10,8 @@
             <h1 class="text-2xl font-semibold text-black">Admin Dashboard</h1>
           </div>
 
-kjashdkjsa
+          @livewire('owner-dashboard') 
+
         </div>
       </div>
     </div>
