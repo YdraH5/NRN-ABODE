@@ -91,7 +91,7 @@ Route::group(['middleware' => ['auth','verified']], function () {
 
         // Route::get('/owner/dashboard', [OwnerDashboardController::class, 'index'])->name('owner.dashboard');
         // first page to see when url of the page is executed
-        Route::get('/', function () {
+        Route::get('/owner/dashboard', function () {
             return view('/owner/dashboard');
         })->name('owner.dashboard');
         // ROUTE TO USERS DATA TABLE
