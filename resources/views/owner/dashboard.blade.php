@@ -10,7 +10,7 @@
             <h1 class="text-2xl font-semibold text-black">Admin Dashboard</h1>
           </div>
 
-          @livewire('category-table')   
+          @livewire('owner-dashboard') 
 
         </div>
       </div>
