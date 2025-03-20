@@ -12,8 +12,6 @@
 
           @livewire('owner-dashboard') 
 
-        
-        
         </div>
       </div>
     </div>
