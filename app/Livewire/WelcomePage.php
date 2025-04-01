@@ -4,6 +4,7 @@ namespace App\Livewire;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use App\Models\User;
+use App\Models\LandingPage;
 use App\Models\Nearby;
 class WelcomePage extends Component
 {
@@ -45,11 +46,13 @@ class WelcomePage extends Component
             $this->images[$category->category_id] = $categoryImages;
         }
         $owner = User::where('role', 'owner')->first();
+        $settings = LandingPage::first();
         $nearby= Nearby::all();
         return view('livewire.welcome-page', [
             'categories' => $this->apartments,
             'owner' => $owner,
             'nearby' => $nearby,
+            'settings' => $settings,
             'images' => $this->images,
         ]);
     }

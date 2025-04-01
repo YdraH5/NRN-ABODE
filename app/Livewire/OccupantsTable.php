@@ -179,27 +179,29 @@ class OccupantsTable extends Component
     
     public function render()
     {
-            // Start the query with the Apartment model and join the necessary relationships
-            $query = Appartment::with(['categories', 'buildings', 'users'])
-            ->select(
-                'users.name as renters_name',
-                'users.role',
-                'users.id as user_id',
-                'users.phone_number',
-                'users.email',
-                'apartment.id',
-                'categories.name as categ_name',
-                'apartment.room_number',
-                'apartment.id as apartment_id',
-                'categories.price',
-                'buildings.name as building_name',
-                DB::raw('DATE_FORMAT(apartment.created_at, "%b-%d-%Y") as date')
-            )
-            ->join('categories', 'categories.id', '=', 'apartment.category_id')
-            ->join('buildings','buildings.id', '=', 'apartment.building_id')
-            ->Join('users', 'users.id', '=', 'apartment.renter_id')
-            ->where('users.role','renter')
-            ->orderBy($this->sortColumn, $this->sortDirection);
+        $query = Appartment::with(['categories', 'buildings', 'users'])
+        ->select(
+            'users.name as renters_name',
+            'users.role',
+            'users.id as user_id',
+            'users.phone_number',
+            'users.email',
+            'apartment.id',
+            'categories.name as categ_name',
+            'apartment.room_number',
+            'apartment.id as apartment_id',
+            'categories.price',
+            'buildings.name as building_name',
+            'reservations.occupants',
+            DB::raw('DATE_FORMAT(apartment.created_at, "%b-%d-%Y") as date')
+        )
+        ->join('categories', 'categories.id', '=', 'apartment.category_id')
+        ->join('buildings', 'buildings.id', '=', 'apartment.building_id')
+        ->join('users', 'users.id', '=', 'apartment.renter_id')
+        ->leftJoin('reservations', 'reservations.apartment_id', '=', 'apartment.id') // Join with reservations table
+        ->where('users.role', 'renter')
+        ->orderBy($this->sortColumn, $this->sortDirection);
+    
         // Filter based on the search
         if (!empty($this->search)) {
             $query->where(function($query) {
@@ -215,25 +217,30 @@ class OccupantsTable extends Component
         // Execute the query and return the results
         $apartments = $query->paginate($this->perPage);
         $due_dates = DueDate::whereIn('user_id', $apartments->pluck('user_id'))->get();
-        foreach($apartments->pluck('user_id') as $due){
+       // Initialize variables to prevent "Undefined variable" errors
+        $overdueRenters = collect(); 
+        $updatedPayments = collect();
+        $totalUnpaidAmount = 0;
+        $averageOverdueDays = 0;
+
+        if ($apartments->isNotEmpty()) {
             $overdueRenters = $due_dates->filter(function ($due) {
                 return $due->status === 'not paid' && $due->payment_due_date < now();
             });
-           
+
             $updatedPayments = $due_dates->filter(function ($due) {
-                return $due->status === 'paid' && $due->payment_due_date >now();
+                return $due->status === 'paid' && $due->payment_due_date > now();
             });
-            $totalUnpaidAmount = $overdueRenters->sum('amount_due'); // Make sure `amount_due` exists and is numeric
+
+            $totalUnpaidAmount = $overdueRenters->sum('amount_due');
             $averageOverdueDays = $overdueRenters->count()
                 ? $overdueRenters->map(function ($due) {
                     return now()->diffInDays($due->payment_due_date);
                 })->average()
                 : 0;
         }
-       
-        
-    
-       
+
+        // Summary statistics for the view
         $summary = [
             'totalOccupants' => $apartments->total(),
             'overdueRenters' => $overdueRenters->count(),

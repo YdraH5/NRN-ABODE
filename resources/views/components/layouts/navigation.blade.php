@@ -20,7 +20,7 @@
         <li class="mb-4">
             <div class="hidden sm:-my-px sm:ms-10 sm:flex hover:text-black"> 
                @include('components.dashboard-icon')
-                <x-nav-link wire:navigate :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
                 </x-nav-link>
             </div>
@@ -122,6 +122,13 @@
                 :active="request()->routeIs('admin.nearby-establishment.index')" 
                 class="block px-4 py-2">
                 {{ __('Nearby Establishments') }}
+              </x-nav-link>
+              <x-nav-link 
+                wire:navigate 
+                :href="route('admin.landing_page.index')" 
+                :active="request()->routeIs('admin.landing_page.index')" 
+                class="block px-4 py-2">
+                {{ __('Landing Page') }}
               </x-nav-link>
               <x-nav-link 
                 wire:navigate 

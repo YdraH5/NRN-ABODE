@@ -66,12 +66,48 @@
         <table class="min-w-full mx-2 border-collapse">
             <thead> 
                 <tr class="bg-indigo-500 text-white uppercase text-sm">
-                    <th class="py-3 px-4 text-center border-b border-indigo-600">Name</th>
-                    <th class="py-3 px-4 text-center border-b border-indigo-600">Phone number</th>
-                    <th class="py-3 px-4 text-center border-b border-indigo-600">Email</th>
-                    <th class="py-3 px-4 text-center border-b border-indigo-600">Room Type</th>
-                    <th class="py-3 px-4 text-center border-b border-indigo-600">Room Info</th>
-                    <th class="py-3 px-4 text-center border-b border-indigo-600">Lease Status</th>
+                    <th wire:click="doSort('renters_name')" class="py-3 px-4 text-center border-b border-indigo-600 cursor-pointer">
+                        <div class="inline-flex items-center justify-center">
+                            Name
+                            <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="renters_name" />
+                        </div>
+                    </th>
+                    <th wire:click="doSort('phone_number')" class="py-3 px-4 text-center border-b border-indigo-600 cursor-pointer">
+                        <div class="inline-flex items-center justify-center">
+                            Phone number
+                            <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="phone_number" />
+                        </div>
+                    </th>
+                    <th wire:click="doSort('email')" class="py-3 px-4 text-center border-b border-indigo-600 cursor-pointer">
+                        <div class="inline-flex items-center justify-center">
+                            Email
+                            <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="email"/>
+                        </div>
+                    </th>
+                    <th wire:click="doSort('room_number')" class="py-3 px-4 text-center border-b border-indigo-600 cursor-pointer">
+                        <div class="inline-flex items-center justify-center">
+                            Room Type
+                            <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="room_number" />
+                        </div>
+                    </th>
+                    <th wire:click="doSort('categ_name')" class="py-3 px-4 text-center border-b border-indigo-600 cursor-pointer">
+                        <div class="inline-flex items-center justify-center">
+                            Room Info
+                            <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="categ_name" />
+                        </div>
+                    </th>
+                    <th wire:click="doSort('occupants')" class="py-3 px-4 text-center border-b border-indigo-600 cursor-pointer">
+                        <div class="inline-flex items-center justify-center">
+                            Occupants
+                            <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="occupants" />
+                        </div>
+                    </th>
+                    <th wire:click="doSort('occupants')" class="py-3 px-4 text-center border-b border-indigo-600 cursor-pointer">
+                        <div class="inline-flex items-center justify-center">
+                            Lease Status
+                            <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="occupants" />
+                        </div>
+                    </th>
                     <th class="no-print py-3 px-4 text-center border-b border-indigo-600">Action</th>
                 </tr>
             </thead>
@@ -87,6 +123,7 @@
                     <td class="py-3 px-4 text-center border-b border-gray-300">{{$apartments->email}}</td>
                     <td class="py-3 px-4 text-center border-b border-gray-300">{{$apartments->categ_name}}</td>
                     <td class="py-3 px-4 text-center border-b border-gray-300">{{$apartments->building_name}}-{{$apartments->room_number}}</td>
+                    <td class="py-3 px-4 text-center border-b border-gray-300">{{$apartments->occupants}}</td>
                     <td class="no-print py-3 px-4 text-center border-b border-gray-300">
                         @php
                             $unpaidDues = DueDate::where('user_id', $apartments->user_id)

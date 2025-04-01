@@ -73,6 +73,11 @@ Route::group(['middleware' => ['auth','verified']], function () {
             return view('/admin/nearby-establishment');
         })->name('admin.nearby-establishment.index');
 
+        // ROUTE TO NEARBY ESTABLISHMENTS
+        Route::get('/admin/landing-page', function () {
+            return view('/admin/landing-page');
+        })->name('admin.landing_page.index');
+
         // ROUTE TO ACTIVITY LOGS
         Route::get('/admin/logs', function () {
             return view('/admin/logs');
@@ -81,6 +86,7 @@ Route::group(['middleware' => ['auth','verified']], function () {
     
     //route group for owner pages
     Route::group(['middleware' => ['isOwner']], function () {
+        Route::get('/owner/dashboard', [OwnerDashboardController::class, 'index'])->name('owner.dashboard');
         Route::controller(ImageController::class)->group(function() {
             Route::get('/owner/categories/{categoryId}/upload', 'index')->name('images.index');
             Route::get('/owner/categories/{categoryId}/edit', 'edit');
@@ -89,11 +95,8 @@ Route::group(['middleware' => ['auth','verified']], function () {
             Route::get('/owner/category-image/{categoryImageId}/delete', 'delete');
         });
 
-        // Route::get('/owner/dashboard', [OwnerDashboardController::class, 'index'])->name('owner.dashboard');
-        // first page to see when url of the page is executed
-        Route::get('/owner/dashboard', function () {
-            return view('/owner/dashboard');
-        })->name('owner.dashboard');
+      
+        
         // ROUTE TO USERS DATA TABLE
         Route::get('/owner/users', function () {
             return view('/owner/users');
@@ -156,6 +159,8 @@ Route::group(['middleware' => ['auth','verified']], function () {
 
 
         });
+        Route::post('/renters/pay-multiple', [RenterController::class, 'payMultiple'])->name('renters.payMultiple');
+
         Route::get('/renters/home',[RenterController::class,'index'])->name('renters.home');        
         Route::get('/renters/{id}/{apartment}/{reservation}/resend',[RenterController::class,'resend'])->name('renters.resend');
         Route::post('/renters/extend',[RenterController::class,'extend'])->name('renters.extend');

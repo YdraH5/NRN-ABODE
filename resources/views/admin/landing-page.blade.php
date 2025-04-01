@@ -1,21 +1,18 @@
-@section('title', 'Category Management')
+@section('title', 'Landing Page')
 
-@section('content')
-<x-owner-layout>
-<div class="flex justify-end px-10 h-5"> 
-
-@livewire('category-form') 
-
+<x-app-layout>
+    @section('content')
+        
+    @livewire('nearby-form')
     <div class="py-4">
         <div class="min-w-full mx-auto">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg ">
                 <div class="flex flex-col">
-                    @livewire('category-table')   
+                    @livewire('landing-seting')   
                 </div>
             </div>
         </div>
     </div>
-
-
-    @stop           
-</x-owner-layout>
+    
+    @endsection
+</x-app-layout>

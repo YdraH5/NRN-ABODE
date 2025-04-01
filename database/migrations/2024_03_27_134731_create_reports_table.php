@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->text('report_category');
             $table->text('description');
-            $table->text('status')->default('Pending');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('status')->default('Pending'); // Change from text to string
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->softDeletes(); 
             $table->timestamps();
         });

@@ -30,24 +30,36 @@
                         <p class="text-gray-600 text-sm">Generated on: {{ date('F d, Y') }}</p>
                     </div>
                 </div>
-                <h2 class="text-xl font-semibold mb-6 text-indigo-600">Payments Report</h2>
-    
-                <div class="print-container flex flex-wrap justify-center gap-6">
-                    <div class="chart-container w-full md:w-1/2 lg:w-1/3 bg-white p-4 rounded-lg shadow-md">
-                        <h3 class="text-base font-semibold text-center text-gray-700">Rental Fee Earnings</h3>
-                        <img src="{{ $rentalChartUrl }}" alt="Rental Fee Earnings Chart" class="w-full h-auto mx-auto">
-                    </div>
-                
-                    <div class="chart-container w-full md:w-1/2 lg:w-1/3 bg-white p-4 rounded-lg shadow-md">
-                        <h3 class="text-base font-semibold text-center text-gray-700">Reservation Fee Earnings</h3>
-                        <img src="{{ $reservationChartUrl }}" alt="Reservation Fee Earnings Chart" class="w-full h-auto mx-auto">
-                    </div>
-                </div>   
-                 <!-- Prepared By Section -->
-                 <div class="mt-10 border-t pt-4">
+                <h2 class="text-xl font-semibold mb-6 text-indigo-600">Current Month Reservations</h2>
+                <div class="overflow-x-auto bg-white shadow-lg">
+                    <table class="min-w-full mx-2 border-collapse">
+                        <thead>
+                            <tr class="bg-indigo-500 text-white uppercase text-sm">
+                                <th class="py-3 px-4 text-center border-b border-indigo-600">Name</th>
+                                <th class="py-3 px-4 text-center border-b border-indigo-600">Check-in Date</th>
+                                <th class="py-3 px-4 text-center border-b border-indigo-600">Rental Period</th>
+                                <th class="py-3 px-4 text-center border-b border-indigo-600">Total Price</th>
+                                <th class="py-3 px-4 text-center border-b border-indigo-600">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($currentMonthReservations as $reservation)
+                            <tr class="hover:bg-indigo-100">
+                                <td class="py-3 px-4 text-center border-b border-gray-300">{{ $reservation->user_name }}</td>
+                                <td class="py-3 px-4 text-center border-b border-gray-300">{{ $reservation->check_in_date }}</td>
+                                <td class="py-3 px-4 text-center border-b border-gray-300">{{ $reservation->rental_period }} Months</td>
+                                <td class="py-3 px-4 text-center border-b border-gray-300">₱{{ number_format($reservation->total_price, 2) }}</td>
+                                <td class="py-3 px-4 text-center border-b border-gray-300">{{ $reservation->reservation_status }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-4">
                     <p class="text-gray-700 font-medium">Prepared by: <span class="font-bold">{{ auth()->user()->name }}</span></p>
                     <p class="text-gray-600 text-sm">Position: {{ auth()->user()->role }}</p>
-                </div>      
+                </div>
+            </div>   
             </div>
             <!-- Table -->
             </div>
