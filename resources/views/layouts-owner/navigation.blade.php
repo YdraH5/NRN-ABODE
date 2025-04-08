@@ -18,8 +18,8 @@
         <li class="mb-4">
             <div class="hidden sm:-my-px sm:ms-10 sm:flex hover:text-black"> 
                @include('components.dashboard-icon')
-                <x-nav-link wire:navigate :href="route('owner.dashboard')" :active="request()->routeIs('owner.dashboard')">
-                    {{ __('Dashboard') }}
+                <x-nav-link :href="route('owner.dashboard')" :active="request()->routeIs('owner.dashboard')">
+                    Dashboard
                 </x-nav-link>
             </div>
         </li> 
