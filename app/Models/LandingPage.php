@@ -14,6 +14,8 @@ class LandingPage extends Model
         'discover_description',
         'designed_description',
         'neary_description',
+        'gcash_number',
+        'gcash_qr_image',
         'apartment_description'
 ];
 }

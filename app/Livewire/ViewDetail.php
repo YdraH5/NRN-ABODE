@@ -79,6 +79,13 @@ class ViewDetail extends Component
         $this->categoryId = $categoryId;
         $this->available = $available;
         $this->room_available = $room_available;
+        
+        // Load the category details
+        $this->apartment = Category::find($categoryId);
+        if ($this->apartment) {
+            $this->apartment->description = json_decode($this->apartment->description, true);
+        }
+        
         $this->loadAvailableRooms(); // Load available rooms immediately
     }
 

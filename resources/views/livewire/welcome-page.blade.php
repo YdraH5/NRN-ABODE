@@ -152,15 +152,60 @@
                                 </div>
                                 <!-- Description -->
                                 <div class="p-2 sm:p-6">
-                                    <h3 class="text-left text-xl sm:text-2xl font-semibold mb-2 text-gray-700">{{ $category->category_name }}</h3> <!-- Left-aligned text -->
-                                    <div class="flex items-center mb-4">
+                                    <h3 class="text-left text-xl sm:text-2xl font-semibold mb-2 text-gray-700">{{ $category->category_name }}</h3>
+                                    
+                                    <div class="flex items-center mb-2">
                                         <h6 class="text-lg sm:text-xl font-semibold text-gray-700 mr-2">Price:</h6>
                                         <p class="text-md sm:text-lg text-gray-800">₱{{ number_format($category->price, 2) }}/month</p>
                                     </div>
-                                    <button wire:click="viewDetails({{ $category->category_id }})" 
-                                            class="inline-block bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300">
-                                        View Details
-                                    </button>
+                                    
+                                    <div class="flex items-center mb-2">
+                                        <h6 class="text-lg sm:text-xl font-semibold text-gray-700 mr-2">Capacity:</h6>
+                                        <p class="text-md sm:text-lg text-gray-800">{{ $category->description['pax'] }} people</p>
+                                    </div>
+                                    
+                                    <!-- Show only 3 key amenities initially -->
+                                    <div class="mb-3">
+                                        <h6 class="text-sm font-semibold text-gray-600 mb-1">Key Features:</h6>
+                                        <div class="flex flex-wrap gap-2">
+                                            @php
+                                                $shownFeatures = 0;
+                                                $featuresToShow = 3;
+                                                $features = [
+                                                    ['condition' => $category->description['aircon'], 'label' => 'Aircon'],
+                                                    ['condition' => $category->description['cr'], 'label' => 'Private CR'],
+                                                    ['condition' => $category->description['kitchen'], 'label' => 'Kitchen'],
+                                                    ['condition' => $category->description['livingRoom'], 'label' => 'Living Room'],
+                                                    ['condition' => $category->description['balcony'], 'label' => 'Balcony'],
+                                                    ['condition' => $category->description['bed'], 'label' => 'Bed Included'],
+                                                    ['condition' => $category->description['parking'], 'label' => 'Parking']
+                                                ];
+                                            @endphp
+
+                                            @foreach($features as $feature)
+                                                @if($feature['condition'] && $shownFeatures < $featuresToShow)
+                                                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full flex items-center">
+                                                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                                        </svg>
+                                                        {{ $feature['label'] }}
+                                                    </span>
+                                                    @php $shownFeatures++; @endphp
+                                                @endif
+                                            @endforeach
+
+                                            @if(array_sum(array_column($features, 'condition')) > $featuresToShow)
+                                                <span class="text-xs text-blue-600 px-2 py-1">+{{ array_sum(array_column($features, 'condition')) - $featuresToShow }} more...</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <button wire:click="viewDetails({{ $category->category_id }})" 
+                                                class="inline-block bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300 text-sm">
+                                            View All Features & Details
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach

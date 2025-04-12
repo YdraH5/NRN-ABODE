@@ -36,18 +36,24 @@ class WelcomePage extends Component
             )
             ->groupBy('categories.id', 'categories.name', 'categories.description', 'categories.price')
             ->get();
-    
-        $this->apartments = $query;
-    
+
+        // Decode the JSON description for each category
+        $this->apartments = $query->map(function($category) {
+            $category->description = json_decode($category->description, true);
+            return $category;
+        });
+
         foreach ($this->apartments as $category) {
             $categoryImages = DB::table('category_images')
                 ->where('category_id', $category->category_id)
                 ->get();
             $this->images[$category->category_id] = $categoryImages;
         }
+
         $owner = User::where('role', 'owner')->first();
         $settings = LandingPage::first();
-        $nearby= Nearby::all();
+        $nearby = Nearby::all();
+        
         return view('livewire.welcome-page', [
             'categories' => $this->apartments,
             'owner' => $owner,

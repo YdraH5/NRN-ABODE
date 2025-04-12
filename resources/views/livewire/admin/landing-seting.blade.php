@@ -32,6 +32,30 @@
             @error('apartment_description') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
 
+        <!-- GCash Number Field -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium">GCash Number</label>
+            <input type="text" wire:model="gcash_number" class="w-full p-2 border rounded">
+            @error('gcash_number') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+        </div>
+
+        <!-- GCash QR Image Field -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium">GCash QR Code</label>
+            
+            <!-- Display current image if exists -->
+            @if($gcash_qr_image)
+                <div class="mb-2">
+                    <img src="{{ asset('storage/' . $gcash_qr_image) }}" alt="GCash QR Code" class="h-32">
+                    <p class="text-xs text-gray-500 mt-1">Current QR Code</p>
+                </div>
+            @endif
+            
+            <!-- File input for new image -->
+            <input type="file" wire:model="new_gcash_qr_image" class="w-full p-2 border rounded">
+            @error('new_gcash_qr_image') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+        </div>
+
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
             Update Landing Page
         </button>

@@ -21,7 +21,11 @@ class Appartment extends Model
         'category_id',
         'room_number',
         'status'
-    ];    
+    ];  
+    public function building()
+    {
+        return $this->belongsTo(Building::class);
+    }  
     public function reservations()
     {
         return $this->hasMany(Reservation::class);

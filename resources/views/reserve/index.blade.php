@@ -58,14 +58,24 @@
                         <option value="stripe">Stripe</option>
                     </select>
                 </div>
+                <!-- Replace the GCash details section in your form with this: -->
                 <div class="mb-4 hidden" id="gcashUpload">
                     <label class="block text-gray-700 text-sm font-bold mb-2">Upload Gcash Receipt</label>
                     <input type="file" name="receipt" id="gcashReceipt" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight">
+                    
+                    @if($gcashDetails)
                     <div class="mb-4" id="gcashDetails">
                         <p class="text-gray-700 text-sm font-bold mb-2">Scan the QR code below or note down the Gcash number for payment:</p>
-                        <img src="{{ asset('images/GCASH.jpg') }}" alt="GCash QR Code" class="mb-2">
-                        <p class="text-gray-700 font-semibold">GCash Number: 09123456789</p>
+                        
+                        @if($gcashDetails->gcash_qr_image)
+                            <img src="{{ asset('storage/' . $gcashDetails->gcash_qr_image) }}" alt="GCash QR Code" class="mb-2 max-w-xs">
+                        @endif
+                        
+                        @if($gcashDetails->gcash_number)
+                            <p class="text-gray-700 font-semibold">GCash Number: {{ $gcashDetails->gcash_number }}</p>
+                        @endif
                     </div>
+                    @endif
                 </div>
                 <div class="mb-4" x-data="{ agreed: false }">
                     <label class="block text-gray-700 text-sm font-bold mb-2">

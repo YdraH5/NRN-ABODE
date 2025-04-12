@@ -23,7 +23,7 @@ class RenterController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-    
+        
         // Fetch the reservation and payment information
         $reserve_date = DB::table('reservations')
             ->leftjoin('payments', 'payments.reservation_id', '=', 'reservations.id')
@@ -35,7 +35,7 @@ class RenterController extends Controller
                 'apartment.room_number',
                 'categories.name',
                 'categories.price',
-                'buildings.name',
+                'buildings.name as building_name',
                 'reservations.rental_period', // in months
                 'reservations.apartment_id',
                 'payments.status',
@@ -56,11 +56,27 @@ class RenterController extends Controller
             return $reservation;
         });
         
+        // Get active announcements (for all renters or specific to this building)
+        $announcements = DB::table('announcements')
+            ->where('status', 'Active')
+            ->where(function($query) use ($reserve_date) {
+                $query->where('category', 'all')
+                    ->orWhere('category', $reserve_date->first()->building_name ?? '');
+            })
+            ->whereDate('start_date', '<=', now())
+            ->orderBy('priority', 'desc')
+            ->get();
+            
+        // Get GCash payment details from settings
+        $gcashDetails = DB::table('settings')->first(['gcash_number', 'gcash_qr_image']);
+            
         // Pass both the reservation data and the success message
         return view('renters.home', [
             'reservations' => $reserve_date,
-            'due_dates' => DueDate::where('user_id', $user->id)->get(), // Execute the query to get results
-            'success' => 'Payment has been successful'
+            'due_dates' => DueDate::where('user_id', $user->id)->get(),
+            'success' => 'Payment has been successful',
+            'announcements' => $announcements,
+            'gcashDetails' => $gcashDetails // Add this line
         ]);
     }
     public function pay(Request $request) {

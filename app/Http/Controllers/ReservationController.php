@@ -20,29 +20,43 @@ use App\Mail\Contract;
 class ReservationController extends Controller
 {
     public $price;
-    public function index($apartment, Request $request){
+    public function index($apartment, Request $request)
+{
+    $checkin = $request->query('checkin');
+    $rentalPeriod = $request->query('rentalPeriod');
+    $floorNumber = $request->query('floorNumber');
+    $adults = $request->query('adults');
+    $children = $request->query('children');
+    $infants = $request->query('infants');
+    $pets = $request->query('pets');
 
-        $checkin = $request->query('checkin');
-        $rentalPeriod = $request->query('rentalPeriod');
-        $floorNumber = $request->query('floorNumber');
-        $adults = $request->query('adults');
-        $children = $request->query('children');
-        $infants = $request->query('infants');
-        $pets = $request->query('pets');
-
-        $apartment = DB::table('apartment')
+    $apartment = DB::table('apartment')
         ->rightjoin('categories', 'categories.id', '=', 'apartment.category_id')
         ->leftjoin('users', 'users.id', '=', 'apartment.renter_id')
         ->select('categories.name as categ_name','categories.id as categ_id','categories.description','apartment.id','categories.price','apartment.status','users.id AS user_id')
         ->where('apartment.id',$apartment)
         ->where('apartment.status','Available')
         ->get();
-        
-        foreach ($apartment as $id)
-        $category = Category::all()->where('id',$id->categ_id);
+    
+    foreach ($apartment as $id)
+    $category = Category::all()->where('id',$id->categ_id);
 
-        return view('reserve.index', compact('apartment','category', 'checkin', 'rentalPeriod', 'floorNumber', 'adults', 'children', 'infants', 'pets'));
-    }
+    // Get GCash payment details from settings
+    $gcashDetails = DB::table('settings')->first(['gcash_number', 'gcash_qr_image']);
+
+    return view('reserve.index', compact(
+        'apartment',
+        'category', 
+        'checkin', 
+        'rentalPeriod', 
+        'floorNumber', 
+        'adults', 
+        'children', 
+        'infants', 
+        'pets',
+        'gcashDetails' // Add this
+    ));
+}
     public function create(Request $request) {
         $data = $request->validate([
             'apartment_id' => 'required|numeric',

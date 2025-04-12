@@ -27,6 +27,11 @@ class Building extends Model
             ->logOnlyDirty() // Continue to track changes
             ->dontSubmitEmptyLogs(); // Prevent empty logs if nothing is detected to be logged
     }
+    // Define the apartments relationship
+    public function apartments()
+    {
+        return $this->hasMany(Appartment::class);
+    }
 }
 
 
