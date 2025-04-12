@@ -24,7 +24,7 @@
             <!-- Summary Section -->
             <div class="text-center max-w-3xl mx-auto mb-10">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Discover Comfortable Living</h2>
-                @if($settings->discover_description )
+                @isset($settings->discover_description)
                 <p class="text-lg text-gray-600 mt-2">
                     {{ $settings->discover_description }}
                 </p>
@@ -34,7 +34,7 @@
                     Our well-designed rooms, secure parking, and modern amenities offer the perfect place to call home. 
                     Whether you're here for a short stay or a long-term residence, we prioritize your comfort.
                 </p>
-                @endif
+                @endisset
             </div>
             <div class="min-w-full grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
                 <!-- Left Image -->
@@ -45,7 +45,7 @@
                 <!-- Center Text -->
                 <div class="md:col-span-1 text-center">
                     <h2 class="text-2xl md:text-3xl font-bold mb-4">Designed for <span class="text-[#89CFF0]">Comfort</span>, built for <span class="text-[#89CFF0]">You</span>.</h2>
-                    @if($settings->designed_description )
+                    @isset($settings->designed_description)
                     <p class="text-base md:text-lg leading-relaxed">
                         {{ $settings->designed_description }}
                     </p>
@@ -53,7 +53,7 @@
                     <p class="text-base md:text-lg leading-relaxed">
                         NRN Building in Mission Hills, Roxas City features 30 elegant rooms, dedicated parking, and free air conditioning for your comfort.
                     </p>
-                    @endif
+                    @endisset
                 </div>
     
                 <!-- Right Image -->
@@ -67,12 +67,11 @@
         <div class="text-black flex flex-col items-center justify-center p-4 md:p-5 text-center px-4 md:px-16 py-8 md:py-16my-2"data-aos="fade-up">
             <h3 class="font-heavy text-xl md:text-2xl mb-1 text-black">Nearby Establishments</h3>
             <hr class="w-1/2 border-t-2 border-gray-300 mb-4">
-            @if($settings->discover_description )
-            <p class="text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl pb-8">                {{ $settings->neary_description }}
-            </p>
+            @isset($settings->neary_description)
+            <p class="text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl pb-8">{{ $settings->neary_description }}</p>
             @else
             <p class="text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl pb-8">Explore key locations surrounding the NRN Building, offering essential services, entertainment, and convenience—all within close proximity.</p>
-            @endif
+            @endisset
             <div class="min-w-full carousel-container overflow-hidden relative w-full max-w-6xl mx-auto">
                 <div class="carousel-wrapper flex transition-transform duration-500 ease-in-out" id="carousel">
                     @foreach($nearby as $establishment)
@@ -109,13 +108,13 @@
                 <div  class="text-black flex flex-col items-center justify-center p-4 md:p-5 text-center my-2">
                     <h3 class="font-heavy text-xl md:text-2xl mb-1 text-black">Apartments We Recommend for You</h3>
                     <hr class="w-1/2 border-t-2 border-gray-300 mb-4">
-                    @if($settings->designed_description )
+                    @isset($settings->apartment_description)
                     <p class="text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl pb-8">
                         {{ $settings->apartment_description }}
                     </p>
                     @else
                     <p class="text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl pb-8">Browse our carefully selected apartment listings, designed to provide comfort, affordability, and an ideal living experience near the NRN Building.</p>
-                    @endif
+                    @endisset
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 min-w-full px-4 md:px-16">
                         @foreach ($categories as $category)
                             <div class="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 hover:bg-slate-200">
@@ -251,7 +250,7 @@
     <!-- Footer Section -->
     <footer class="bg-gray-100 text-black py-10 shadow-lg">
         <div class="max-w-6xl mx-auto px-6 text-center">
-            @if($owner)
+            @isset($owner)
                 <h2 class="text-2xl md:text-3xl font-bold mb-4">CONTACT US</h2>
                 <div class="flex flex-col md:flex-row justify-center items-center gap-4 text-lg">
                     <p class="flex items-center gap-2">
@@ -275,7 +274,7 @@
                 </div>
             @else
                 <p class="text-gray-400">No owner information available.</p>
-            @endif
+            @endisset
             <div class="border-t border-gray-700 my-6"></div>
             <p class="text-sm text-gray-500">&copy; {{ date('Y') }} NRN Building. All rights reserved.</p>
         </div>

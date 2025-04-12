@@ -17,8 +17,8 @@ return new class extends Migration
             $table->text('designed_description')->nullable();
             $table->text('neary_description')->nullable();
             $table->text('apartment_description')->nullable();
-            $table->string('gcash_number')->nullable()->after('apartment_description');
-            $table->string('gcash_qr_image')->nullable()->after('gcash_number');
+            $table->string('gcash_number');
+            $table->string('gcash_qr_image');
         });
 
     }
